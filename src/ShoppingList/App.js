@@ -20,7 +20,7 @@ class App extends Component {
         super(props);
         this.state = {
             buyItems: ['milk', 'eggs', 'fruit'],
-            message: ''
+            message: ''                        
         }
     }
 
@@ -101,16 +101,16 @@ class App extends Component {
               </thead>
               <tbody>
                 {
-                    buyItems.map(item => {
+                    buyItems.map(item  => {
                         return (
                         <tr key={item}>
-                            <th scope="row">1</th>
+                            <td>{(buyItems.indexOf(item) + 1).toString()}</td>
                             <td>{item}</td>
                             <td className="text-right">
                                 <button onClick={(e) => this.removeItem(item)} type="button" className="btn btn-default btn-sm">Remove
                                 </button>
                             </td>
-                         </tr>  
+                         </tr>                           
                         ) 
                     })
                 }
