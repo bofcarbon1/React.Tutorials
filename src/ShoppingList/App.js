@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+//import React, { Component } from 'react';
 import '../R101Collapse/scss/app.css';
 //import PropTypes from 'prop-types';
 //import './App.css';
