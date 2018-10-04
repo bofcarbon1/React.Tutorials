@@ -39,7 +39,12 @@ body {
   .kbd-navigation .square:focus {
     background: #ddd;
   }
-  
+
+  .moves button:focus {
+      font-weight: bold;
+      color: rgb(4, 0, 255);
+  }
+    
   .game {
     display: flex;
     flex-direction: row;

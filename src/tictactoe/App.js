@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
+import sortbtn from './updownarrow.png' // relative path to image 
 
 function Square(props) {
   return (
     <button className="square" onClick={props.onClick}>
-      {props.value}
+     {props.value}
     </button>
   );
 }
@@ -12,38 +13,41 @@ function Square(props) {
 class Board extends React.Component {
   renderSquare(i) {
     return (
-      <Square
+      <Square key={i}
         value={this.props.squares[i]}
         onClick={() => this.props.onClick(i)}
       />
     );
   }
 
+  CreateMovesList = () => {
+    var counter = 0;
+    let list = [];
+    // Outer loop to create parent div tags
+    for (let i = 0; i < 3; i++) {
+      let children = []
+      // Innner loop to create children div tags
+      for (let j = 0; j < 3; j++) {
+        children.push(this.renderSquare(counter));
+        counter = counter + 1;
+      }
+      // Create the parent add add the children
+      list.push(<div className="board-row" key={i}>{children}</div>)
+    }
+    return list
+  }
+
   render() {
     return (
       <div>
-        <div className="board-row">
-          {this.renderSquare(0)}
-          {this.renderSquare(1)}
-          {this.renderSquare(2)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(3)}
-          {this.renderSquare(4)}
-          {this.renderSquare(5)}
-        </div>
-        <div className="board-row">
-          {this.renderSquare(6)}
-          {this.renderSquare(7)}
-          {this.renderSquare(8)}
-        </div>
-      </div>
-    );
+        {this.CreateMovesList()}
+      </div>      
+    )
   }
 }
 
 class App extends React.Component {
-  constructor(props) {
+   constructor(props) {
     super(props);
     this.state = {
       history: [
@@ -60,6 +64,7 @@ class App extends React.Component {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
+    
     if (calculateWinner(squares) || squares[i]) {
       return;
     }
@@ -67,7 +72,7 @@ class App extends React.Component {
     this.setState({
       history: history.concat([
         {
-          squares: squares
+          squares: squares          
         }
       ]),
       stepNumber: history.length,
@@ -75,36 +80,46 @@ class App extends React.Component {
     });
   }
 
-  jumpTo(step) {
-    this.setState({
+  jumpTo(step) {   
+   this.setState({
       stepNumber: step,
-      xIsNext: (step % 2) === 0
+      xIsNext: (step % 2) === 0       
     });
+  }
+
+  sortMoves(moves) {
+    moves.sort((a, b) => a - b).reverse()
+    this.sortedMoves = moves;          
   }
 
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-
-    const moves = history.map((step, move) => {
+        
+    var moves = history.map((step, move) => {
       const desc = move ?
         'Go to move #' + move :
-        'Go to game start';
+        'Go to game start';        
       return (
-        <li key={move}>
-          <button onClick={() => this.jumpTo(move)}>{desc}</button>
+        <li className="moves" key={move}>
+          <button 
+          onClick={() => this.jumpTo(move)}>{desc}</button>
         </li>
-      );
+      );     
     });
+
+    if (this.sortedMoves) {
+      moves = this.sortedMoves;     
+    }
 
     let status;
     if (winner) {
-      status = "Winner: " + winner;
+      status = "Winner: " + winner;            
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
-
+    
     return (
       <div className="game">
         <div className="game-board">
@@ -116,6 +131,9 @@ class App extends React.Component {
         <div className="game-info">
           <h1>React Tutorials - Tic Tac Toe Game</h1>
           <div>{status}</div>
+          <p><b>Moves:</b>
+          <input type="image" src={sortbtn} alt="Submit" width="36" height="36"
+          onClick={ () => this.sortMoves(moves) }/></p>        
           <ol>{moves}</ol>
         </div>
       </div>
@@ -125,11 +143,6 @@ class App extends React.Component {
 
 
 // ========================================
-
-//ReactDOM.render(
-//  <App />,
-//  document.getElementById('root')
-//);
 
 function calculateWinner(squares) {
   const lines = [
@@ -151,6 +164,7 @@ function calculateWinner(squares) {
   return null;
 }
 
+// ========================================
 
 export default App;
   
