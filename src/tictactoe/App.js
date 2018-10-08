@@ -2,10 +2,10 @@ import React from 'react';
 import './App.css';
 import sortbtn from './updownarrow.png' // relative path to image 
 
-function Square(props) {
+function Square(props) {   
   return (
     <button className="square" onClick={props.onClick}>
-     {props.value}
+     {props.value}  
     </button>
   );
 }
@@ -19,7 +19,7 @@ class Board extends React.Component {
       />
     );
   }
-
+  
   CreateMovesList = () => {
     var counter = 0;
     let list = [];
@@ -28,7 +28,7 @@ class Board extends React.Component {
       let children = []
       // Innner loop to create children div tags
       for (let j = 0; j < 3; j++) {
-        children.push(this.renderSquare(counter));
+        children.push(<a accessKey={counter} key={counter}>{this.renderSquare(counter)}</a>);
         counter = counter + 1;
       }
       // Create the parent add add the children
@@ -96,7 +96,10 @@ class App extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-        
+    const winners = fuckReact(current.squares);
+
+    console.log("winners: ", winners);
+                    
     var moves = history.map((step, move) => {
       const desc = move ?
         'Go to move #' + move :
@@ -115,10 +118,24 @@ class App extends React.Component {
 
     let status;
     if (winner) {
-      status = "Winner: " + winner;            
+      status = "Winner: " + winner;  
+      for (let i = 0; i < 3; i++ ){
+        var row = document.getElementsByClassName("board-row")[i].children; 
+        console.log("row: ", row);      
+        for (let j = 0; j < row.length; j++) {
+          if (row[j].accessKey === winners[0].toString() ||
+              row[j].accessKey === winners[1].toString() ||
+              row[j].accessKey === winners[2].toString()) {
+            //console.log("found a row.accessKey match of: ", row[j].accessKey);
+            //document.body.a.setAttribute("style", "background-color: blue;");
+          }      
+        }    
+      }
+              
     } else {
       status = "Next player: " + (this.state.xIsNext ? "X" : "O");
     }
+
     
     return (
       <div className="game">
@@ -126,6 +143,7 @@ class App extends React.Component {
           <Board
             squares={current.squares}
             onClick={i => this.handleClick(i)}
+            winners 
           />
         </div>
         <div className="game-info">
@@ -138,7 +156,7 @@ class App extends React.Component {
         </div>
       </div>
     );
-  }
+  }  
 }
 
 
@@ -158,7 +176,31 @@ function calculateWinner(squares) {
   for (let i = 0; i < lines.length; i++) {
     const [a, b, c] = lines[i];
     if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a];
+      let winners = [];
+      winners = lines[i];
+      return  (winners, squares[a]);
+    }
+  }
+  return null;
+}
+
+function fuckReact(squares) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+  for (let i = 0; i < lines.length; i++) {
+    const [a, b, c] = lines[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      let winners = [];
+      winners = lines[i];
+      return  winners;
     }
   }
   return null;
