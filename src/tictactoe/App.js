@@ -84,7 +84,7 @@ class App extends React.Component {
    this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0       
-    });
+    });       
   }
 
   sortMoves(moves) {
@@ -96,10 +96,8 @@ class App extends React.Component {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-    const winners = fuckReact(current.squares);
-
-    console.log("winners: ", winners);
-                    
+    const winners = getWinners(current.squares);
+                      
     var moves = history.map((step, move) => {
       const desc = move ?
         'Go to move #' + move :
@@ -121,13 +119,11 @@ class App extends React.Component {
       status = "Winner: " + winner;  
       for (let i = 0; i < 3; i++ ){
         var row = document.getElementsByClassName("board-row")[i].children; 
-        console.log("row: ", row);      
         for (let j = 0; j < row.length; j++) {
           if (row[j].accessKey === winners[0].toString() ||
               row[j].accessKey === winners[1].toString() ||
               row[j].accessKey === winners[2].toString()) {
-            //console.log("found a row.accessKey match of: ", row[j].accessKey);
-            //document.body.a.setAttribute("style", "background-color: blue;");
+            row[j].className = "board-row2";
           }      
         }    
       }
@@ -184,7 +180,7 @@ function calculateWinner(squares) {
   return null;
 }
 
-function fuckReact(squares) {
+function getWinners(squares) {
   const lines = [
     [0, 1, 2],
     [3, 4, 5],

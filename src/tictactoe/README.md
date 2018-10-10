@@ -21,6 +21,7 @@ the new Board to state.
 
  3. The original hard coded move history list was converted to a for loop approach which built the elements dynamically.
 
- 4. When a player wins the 3 sqaures that were used to get the win should have a gold background. This feature was partically completed. Up to the point in which an 'accessKey' attribute was used to match a list of 3 winners that contained the square number (0-8). That matching required parsing through the parent child elements of the Board squares. What was not done was to set the attribute of the element font-weight to bold. The issue was that React Native attributes are immutable or not supposed to be changed. The suggestions on the sites where React developers conversted suggested that a new element be built to replace the existing element. This seemed an extreme task as the 9 possible choices for replacement were random and deleting and inserting child elements that deep into the structure of the DOM tree a daunting task. This solution sounded better dealt with using Mobx with a non immutable data store and the ability to set attributes whenever and wherever needed regardless of what the original state of the element was. 
+ 4. When a player wins the 3 sqaures that were used to get the win should have a gold background. This feature was  completed by changing the className to the attribute with the gold background. There was an issue however. Pressing the history buttons and going back to a previous game state does not reset the squares back to the proper class. 
+
 
 

@@ -6,6 +6,10 @@ body {
   ol, ul {
     padding-left: 30px;
   }
+
+  .board-row2 button {
+    background: gold;
+  }
   
   .board-row:after {
     clear: both;
