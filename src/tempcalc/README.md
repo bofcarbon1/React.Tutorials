@@ -1,14 +1,14 @@
-the tempcalc application is part of the React tutorial series from facebook
+The tempcalc application is part of the React tutorial series from facebook
 
-The objective is to learn about liftin state to a component that might have
+The objective is to learn about lifting state to a component that might have
 functions that need to use a common component. This component contains the
 source of truth of the app. 
 
-The app converst temperature from celcius to fahrenheit and vice versa
+The app converts temperature from celcius to fahrenheit and vice versa
 
 Components 
 1. TemperatureInput
-  Take a temperature input in celcius or farenheit and calls an onChange function where is set props
+  Takes a temperature input in celcius or farenheit and calls an onChange function where is set React props
 2. App 
    Is the (calculator component renamed). It registers a celcius and fahrenheit change listenr function that sets state
    The render() sets scale and temparerature from state, Celcius or fahrenheit from a tryConvert function
