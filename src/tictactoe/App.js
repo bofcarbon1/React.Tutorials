@@ -48,7 +48,9 @@ class Board extends React.Component {
 
 class App extends React.Component {
    constructor(props) {
-    super(props);
+    super(props);  
+    var movesSorted; 
+    var wasSorted = false;   
     this.state = {
       history: [
         {
@@ -56,8 +58,8 @@ class App extends React.Component {
         }
       ],
       stepNumber: 0,
-      xIsNext: true
-    };
+      xIsNext: true,      
+    };    
   }
 
   handleClick(i) {
@@ -88,8 +90,8 @@ class App extends React.Component {
   }
 
   sortMoves(moves) {
-    moves.sort((a, b) => a - b).reverse()
-    this.sortedMoves = moves;          
+    this.movesSorted = moves.sort((a, b) => a - b).reverse();
+    this.wasSorted = true;                
   }
 
   render() {
@@ -110,8 +112,9 @@ class App extends React.Component {
       );     
     });
 
-    if (this.sortedMoves) {
-      moves = this.sortedMoves;     
+    if (this.wasSorted === true) {
+      moves = this.movesSorted;
+      this.wasSorted = false;          
     }
 
     let status;
